@@ -1,0 +1,38 @@
+{
+    "properties": {
+        "displayName": "Audit App Services for HTTPS Only configuration",
+        "description": "Audit App Services not configured to allow only HTTPS traffic",
+        "mode": "all",
+        "parameters": {
+            "effectType": {
+                "type": "string",
+                "defaultValue": "Audit",
+                "allowedValues": [
+                    "Audit",
+                    "Disabled"
+                ],
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Web/Sites"
+                    },
+                    {
+                        "field": "Microsoft.Web/sites/httpsOnly",
+                        "notEquals": "true"
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effectType')]"
+            }
+        }
+    }
+}
